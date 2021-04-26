@@ -1,19 +1,26 @@
-var port = process.env.PORT || 3000;
-var express = require('express');
+const { setEnvironment } = require('./config/env.js')
+const { registerRoutes } = require('./routes.js')
+const { connectToDB } = require('./config/db.js')
+const { onPost } = require('./sockets/Post/onPost.js')
+const express = require('express')
+const app = express()
 
-var app = express();
+const server = require('http').createServer(app)
+const io = require('socket.io')(server, {
+  cors: {
+    origin: ["http://localhost:8081", "http://localhost:8082"],
+    methods: ["GET", "POST"]
+  }
+})
 
-app.get('/', function(req, res) {
-  res.send({
-    "Output": "Hello roman!"
-  });
-});
+setEnvironment(app)
+connectToDB()
+registerRoutes(app)
 
-app.post('/', function(req, res) {
-  res.send({
-    "Output": "Hello World!"
-  });
-});
+io.on('connection', (client) => {
+  client.on('onPost', onPost(io))
+})
 
-app.listen(port);
-module.exports = app;
+server.listen(8080, () => {
+  console.log(`Example app listening at 8080`)
+})
