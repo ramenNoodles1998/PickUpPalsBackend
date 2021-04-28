@@ -3,7 +3,9 @@ const Post = require('../../model/post-model.js')
 const Subcription = require('../../model/subscription-model')
 const { getLoggedInUser } = require('../../services/auth-services.js')
 exports.getFriendsList = async (req, res) => {
-    let users = await User.find().limit(60).select('username').exec()
+    let loggedInUser = await getLoggedInUser(req)
+    console.log(loggedInUser.friends.concat(loggedInUser._id))
+    let users = await User.find({ _id: {$nin: loggedInUser.friends.concat(loggedInUser._id)}}).limit(60).select('username').exec()
 
     return res.status(200).json(users)
 }
@@ -47,7 +49,10 @@ exports.getSubscriptionPosts = async (req, res) => {
     for(let sub of loggedInUser.subscriptions) {
         //TODO: change this to search for posts in cetain time frame.
         let subscription = await Subcription.findOne({_id: sub})
-        postPromises.push(Post.find({sport: subscription.title.toLowerCase()}))
+        postPromises.push(Post.find({
+            sport: subscription.title.toLowerCase(),
+            creatorId: {$ne: loggedInUser._id}
+        }))
     }
 
     postPromises = await Promise.all(postPromises)
@@ -74,7 +79,7 @@ exports.addFriend = async (req, res) => {
             return res.status(200).json({message: 'success'})
         })
     } else {
-        return res.status(500).json({message: 'Friend is already added or you can\'t add your self.'})
+        return res.status(500).json({message: 'Friend is already added.'})
     }
     
 }

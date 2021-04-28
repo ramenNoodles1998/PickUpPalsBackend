@@ -1,9 +1,11 @@
 const {StringUtil} = require('../../utilities/string-util.js')
 const User = require('../../model/user-model.js')
 const Subscription = require('../../model/subscription-model.js')
+const { getLoggedInUser } = require('../../services/auth-services.js')
 
 exports.index = async (req, res) => {
-    let allSubs = await Subscription.find({}).exec()
+    let loggedInUser = await getLoggedInUser(req)
+    let allSubs = await Subscription.find({_id: {$nin: loggedInUser.subscriptions}}).exec()
     return res.status(200).json(allSubs)
 }
 
