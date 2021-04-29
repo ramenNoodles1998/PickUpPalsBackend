@@ -21,7 +21,7 @@ phases:
       commands:
         - echo Build started on `date`
         - echo Compiling the Node.js code
-        - npm test
+        - npm test -- --ci --watchAll=false
 
   post_build:
     commands:

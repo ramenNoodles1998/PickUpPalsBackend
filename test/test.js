@@ -6,6 +6,12 @@ let should = chai.should()
 chai.use(chaiHttp)
 
 describe('Tests', function() {
+  after(() => {
+    setTimeout(() => {
+      process.exit(1)
+    }, 1500)
+  })
+
   describe('/', () => {
     it('Server health check', (done) => {
       chai.request(server)
@@ -17,3 +23,4 @@ describe('Tests', function() {
     })
   })
 })
+
