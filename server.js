@@ -24,3 +24,5 @@ io.on('connection', (client) => {
 server.listen(8080, () => {
   console.log(`Example app listenings at 8080`)
 })
+
+module.exports = server
