@@ -1,3 +1,4 @@
+const { assert } = require('chai')
 let chai = require('chai')
 let chaiHttp = require('chai-http')
 let server = require('../server.js')
@@ -17,6 +18,7 @@ describe('Tests', function() {
       chai.request(server)
       .get('/healthCheck')
       .end((err, res) => {
+        assert.equal(res.text,'healthy server')
         res.should.have.status(200)
         done()
       })
