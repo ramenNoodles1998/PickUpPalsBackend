@@ -21,10 +21,11 @@ phases:
       commands:
         - echo Build started on `date`
         - echo Compiling the Node.js code
-        - npm test
+        - mocha test/test.js
 
   post_build:
     commands:
+      - echo Build completed on `date`  
       # Remove existing node_modules to clear dev dependencies
       - rm -r node_modules
 
