@@ -8,5 +8,6 @@ router.post('/feed/addFriend/:username', feedController.addFriend)
 router.get('/feed/posts', feedController.getPosts)
 router.get('/feed/subscriptionPosts', feedController.getSubscriptionPosts)
 router.get('/feed/userPosts', feedController.getUserPosts)
+router.get('/feed/getSubscriptionSports', feedController.getSubscriptionSports)
 
 module.exports = router

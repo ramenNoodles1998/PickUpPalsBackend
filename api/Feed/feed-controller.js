@@ -2,6 +2,7 @@ const User = require('../../model/user-model.js')
 const Post = require('../../model/post-model.js')
 const Subcription = require('../../model/subscription-model')
 const { getLoggedInUser } = require('../../services/auth-services.js')
+
 exports.getFriendsList = async (req, res) => {
     let loggedInUser = await getLoggedInUser(req)
     console.log(loggedInUser.friends.concat(loggedInUser._id))
@@ -102,5 +103,9 @@ exports.findFriends = async (req, res) => {
     } else {
         return res.status(500).json({message: 'error'})
     }
-    
+}
+
+exports.getSubscriptionSports = async (req, res) => {
+    let sports = await Subcription.find().exec()
+    return res.status(200).json(sports)
 }

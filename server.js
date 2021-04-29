@@ -8,7 +8,7 @@ const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server, {
   cors: {
-    origin: ['http://localhost:8083', 'http://pickuppals.uvucs.org'],
+    origin: ['http://localhost:8081', 'http://pickuppals.uvucs.org'],
     methods: ['GET', 'POST']
   }
 })
