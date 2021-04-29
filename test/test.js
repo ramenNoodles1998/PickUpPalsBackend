@@ -9,7 +9,7 @@ chai.use(chaiHttp)
 describe('Tests', function() {
   after(() => {
     setTimeout(() => {
-      process.exit(0)
+      process.exit(1)
     }, 1500)
   })
 

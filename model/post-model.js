@@ -6,7 +6,8 @@ const postSchema = new mongoose.Schema({
     description: String,
     sport: String,
     address: String,
-    spotsAvailable: Number
+    spotsAvailable: Number,
+    dateTime: Date
 })
 postSchema.set('timestamps', true)
 

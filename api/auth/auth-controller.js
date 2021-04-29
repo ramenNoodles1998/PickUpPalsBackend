@@ -3,7 +3,6 @@ const User = require('../../model/user-model')
 const {generateJWT} = require('../../services/auth-services')
 
 exports.index = (req, res) => {
-    console.log('here')
     const validation = validateIndex(req.body)
 
     if(!validation.isValid) {
