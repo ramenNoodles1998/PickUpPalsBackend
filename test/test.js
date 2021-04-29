@@ -12,12 +12,11 @@ describe('Tests', function() {
     }, 1500)
   })
 
-  describe('/', () => {
+  describe('/healthCheck', () => {
     it('Server health check', (done) => {
       chai.request(server)
-      .get('/')
+      .get('/healthCheck')
       .end((err, res) => {
-        console.log(res)
         res.should.have.status(200)
         done()
       })

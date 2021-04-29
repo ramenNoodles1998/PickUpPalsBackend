@@ -15,13 +15,12 @@ phases:
     commands:
       - echo Installing source NPM dependencies...
       - npm install
-      - npm install unit.js
 
   build:
       commands:
         - echo Build started on `date`
         - echo Compiling the Node.js code
-        - mocha test/test.js
+        - npm test
 
   post_build:
     commands:

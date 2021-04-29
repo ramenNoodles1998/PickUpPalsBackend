@@ -17,6 +17,10 @@ setEnvironment(app)
 connectToDB()
 registerRoutes(app)
 
+app.get('/healthCheck', (req, res) => {
+  res.send('healthy server')
+})
+
 io.on('connection', (client) => {
   client.on('onPost', onPost(io))
 })
@@ -25,4 +29,4 @@ server.listen(8080, () => {
   console.log(`Example app listenings at 8080`)
 })
 
-module.exports = server
+module.exports = app
