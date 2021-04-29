@@ -17,6 +17,7 @@ describe('Tests', function() {
       chai.request(server)
       .get('/')
       .end((err, res) => {
+        console.log(res)
         res.should.have.status(200)
         done()
       })
