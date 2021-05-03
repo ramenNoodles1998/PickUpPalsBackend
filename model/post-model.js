@@ -6,6 +6,9 @@ const postSchema = new mongoose.Schema({
     description: String,
     sport: String,
     address: String,
+    zip: String,
+    city: String,
+    state: String,
     spotsAvailable: Number,
     dateTime: Date
 })

@@ -9,8 +9,10 @@ const userSchema = new mongoose.Schema({
     password: String,
     subscriptions: Array,
     friends: Array,
+    pendingFriends: Array,
+    sentPendingFriends: Array,
     status: String,
-    feed: Array
+    currentGames: Array
 })
 userSchema.statics.passwordsMatch = (password, hash) => {
     return bcrypt.compareSync(password, hash)

@@ -1,4 +1,3 @@
-const {StringUtil} = require('../../utilities/string-util.js')
 const User = require('../../model/user-model.js')
 const Subscription = require('../../model/subscription-model.js')
 const { getLoggedInUser } = require('../../services/auth-services.js')
@@ -19,20 +18,18 @@ exports.userSubscriptions = async (req, res) => {
 }
 
 exports.addUserSubscription = async (req, res) => {
-    await User.findById(req.params.userId, async (err, user) => {
-        if(err) {
-            return res.status(400)
-        }
+    let loggedInUser = await getLoggedInUser(req)
 
-        user.subscriptions = [...user.subscriptions, String(req.body.subscriptionId)]
+    loggedInUser.subscriptions = [...loggedInUser.subscriptions, String(req.body.subscriptionId)]
 
-        user.save(error => {
-            if(error) {
-                return res.status(500).json({message: error.toString()})
-            }
-            return res.status(200).json({message: 'success'})
-        })
-    }).exec()
+    loggedInUser.save()
+
+    let subscription = await Subscription.findOne({_id: String(req.body.subscriptionId)}).exec()
+    subscription.subscribers.push(loggedInUser._id)
+
+    subscription.save()
+
+    return res.status(200).json({message: 'success'})
 }
 
 exports.deleteUserSubscription = async (req, res) => {

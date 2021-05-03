@@ -7,7 +7,4 @@ router.get('/subscriptions/:userId', subscriptionController.userSubscriptions)
 router.post('/subscriptions/:userId', subscriptionController.addUserSubscription)
 router.delete('/subscriptions/:userId', subscriptionController.deleteUserSubscription)
 
-
-
-
 module.exports = router

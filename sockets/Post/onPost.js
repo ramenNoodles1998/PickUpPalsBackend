@@ -6,7 +6,7 @@ exports.onPost = (io) => {
         let loggedInUser = await User.findOne({_id: post.creatorId})
         const newPost = new Post(post)
 
-        newPost.save(error => {
+        newPost.save((error, post) => {
             if(error) {
                 return
             }

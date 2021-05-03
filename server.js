@@ -2,6 +2,11 @@ const { setEnvironment } = require('./config/env.js')
 const { registerRoutes } = require('./routes.js')
 const { connectToDB } = require('./config/db.js')
 const { onPost } = require('./sockets/Post/onPost.js')
+const { joinGame } = require('./sockets/Game/joinGame.js')
+const { decreaseSpots } = require('./sockets/Game/decreaseSpots.js')
+const { sendFriendRequest } = require('./sockets/Friend/sendFriendRequest.js')
+const { sendFriendRequestAdded } = require('./sockets/Friend/sendFriendRequestAdded.js')
+
 const express = require('express')
 const app = express()
 
@@ -23,6 +28,10 @@ app.get('/healthCheck', (req, res) => {
 
 io.on('connection', (client) => {
   client.on('onPost', onPost(io))
+  client.on('joinGame', joinGame(io)),
+  client.on('decreaseSpots', decreaseSpots(io))
+  client.on('sendFriendRequest', sendFriendRequest(io))
+  client.on('sendFriendRequestAdded', sendFriendRequestAdded(io))
 })
 
 server.listen(8080, () => {
