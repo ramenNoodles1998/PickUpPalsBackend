@@ -23,8 +23,8 @@ exports.leaveGame = async (req, res) => {
 
     game.spotsAvailable++
 
-    game.save()
-    loggedInUser.save()
+    await game.save()
+    await loggedInUser.save()
 
     return res.status(200).json(game)
 }

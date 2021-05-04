@@ -29,12 +29,12 @@ exports.addUserSubscription = async (req, res) => {
 
     loggedInUser.subscriptions = [...loggedInUser.subscriptions, String(req.body.subscriptionId)]
 
-    loggedInUser.save()
+    await loggedInUser.save()
 
     let subscription = await Subscription.findOne({_id: String(req.body.subscriptionId)}).exec()
     subscription.subscribers.push(loggedInUser._id)
 
-    subscription.save()
+    await subscription.save()
 
     return res.status(200).json({message: 'success'})
 }

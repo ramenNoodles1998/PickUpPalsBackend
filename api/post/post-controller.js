@@ -40,6 +40,7 @@ exports.getAllPosts = async (req, res) => {
             creatorId: {$ne: loggedInUser._id}
         }).where('spotsAvailable').gt(0))
     }
+    
     postPromises = await Promise.all(postPromises)
     let idArray = postPromises.flat(1).map((post) => { return post._id })
 

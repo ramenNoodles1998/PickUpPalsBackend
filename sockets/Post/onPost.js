@@ -7,18 +7,18 @@ exports.onPost = (io) => {
         let loggedInUser = await User.findOne({_id: post.creatorId})
         const newPost = new Post(post)
 
-        await newPost.save()
-            
-        for(let friend of loggedInUser.friends) {
-            io.emit(`updateFeed/${friend}`)
-        }
-
-        let subsciption = await Subscription.findOne({title: newPost.sport}).exec()
-
-        for(let sub of subsciption.subscribers) {
-            io.emit(`updateFeed/${sub}`)
-        }
-
-        io.emit(`updateFeed/${loggedInUser._id}`)
+        newPost.save().then(async () => {
+            for(let friend of loggedInUser.friends) {
+                io.emit(`updateFeed/${friend}`)
+            }
+    
+            let subscription = await Subscription.findOne({title: newPost.sport}).exec()
+    
+            for(let sub of subscription.subscribers) {
+                io.emit(`updateFeed/${sub}`)
+            }
+    
+            io.emit(`updateFeed/${loggedInUser._id}`)
+        })
     }
 }
