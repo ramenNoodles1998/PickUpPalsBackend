@@ -3,11 +3,13 @@ const { registerRoutes } = require('./routes.js')
 const { connectToDB } = require('./config/db.js')
 const { onPost } = require('./sockets/Post/onPost.js')
 const { joinGame } = require('./sockets/Game/joinGame.js')
-const { decreaseSpots } = require('./sockets/Game/decreaseSpots.js')
 const { sendFriendRequest } = require('./sockets/Friend/sendFriendRequest.js')
 const { sendFriendRequestAdded } = require('./sockets/Friend/sendFriendRequestAdded.js')
+const { sendFriendRequestDeclined } = require('./sockets/Friend/sendFriendRequestDeclined.js')
+const { sendUpdateFeed } = require('./sockets/Post/sendUpdateFeed.js')
 
 const express = require('express')
+const { Socket } = require('dgram')
 const app = express()
 
 const server = require('http').createServer(app)
@@ -28,10 +30,14 @@ app.get('/healthCheck', (req, res) => {
 
 io.on('connection', (client) => {
   client.on('onPost', onPost(io))
-  client.on('joinGame', joinGame(io)),
-  client.on('decreaseSpots', decreaseSpots(io))
+  client.on('joinGame', joinGame(io))
   client.on('sendFriendRequest', sendFriendRequest(io))
   client.on('sendFriendRequestAdded', sendFriendRequestAdded(io))
+  client.on('sendFriendRequestDeclined', sendFriendRequestDeclined(io))
+  client.on('sendUpdateFeed', sendUpdateFeed(io))
+  client.on('end', () => {
+    client.disconnect()
+  })
 })
 
 server.listen(8080, () => {

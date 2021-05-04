@@ -8,6 +8,6 @@ router.post('/friend/addFriend/:username', friendController.addFriend)
 router.get('/friend/addPendingFriend/:friendId', friendController.addPendingFriend)
 router.get('/friend/getPendingFriends', friendController.getPendingFriends)
 router.get('/friend/getSentPendingFriends', friendController.getSentPendingFriends)
-
+router.delete('/friend/deleteFriend/:friendId', friendController.deleteFriend)
 
 module.exports = router

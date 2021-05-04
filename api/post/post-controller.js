@@ -8,7 +8,6 @@ exports.getPosts = async (req, res) => {
 
     if(loggedInUser && loggedInUser.friends && loggedInUser.friends.length > 0) {
         for(let friend of loggedInUser.friends) {
-            //TODO: change this to search for posts in cetain time frame.
             postPromises.push(Post.find({
                 _id: {$nin: loggedInUser.currentGames},
                 creatorId: friend._id, 
@@ -34,7 +33,6 @@ exports.getAllPosts = async (req, res) => {
     let postPromises = []
 
     for(let sub of loggedInUser.subscriptions) {
-        //TODO: change this to search for posts in cetain time frame.
         let subscription = await Subcription.findOne({_id: sub})
         postPromises.push(Post.find({
             _id: {$nin: loggedInUser.currentGames},
@@ -46,7 +44,6 @@ exports.getAllPosts = async (req, res) => {
     let idArray = postPromises.flat(1).map((post) => { return post._id })
 
     for(let friend of loggedInUser.friends) {
-        //TODO: change this to search for posts in cetain time frame.
         postPromises.push(Post.find({
             _id: {$nin: loggedInUser.currentGames.concat(idArray)},
             creatorId: friend._id
@@ -73,7 +70,6 @@ exports.getSubscriptionPosts = async (req, res) => {
     let postPromises = []
 
     for(let sub of loggedInUser.subscriptions) {
-        //TODO: change this to search for posts in cetain time frame.
         let subscription = await Subcription.findOne({_id: sub})
         postPromises.push(Post.find({
             _id: {$nin: loggedInUser.currentGames},

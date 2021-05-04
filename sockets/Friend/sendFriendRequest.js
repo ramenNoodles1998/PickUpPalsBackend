@@ -8,10 +8,10 @@ exports.sendFriendRequest = (io) => {
         loggedInUser.sentPendingFriends.push(friendId)
         friend.pendingFriends.push(userId)
 
-        loggedInUser.save()
-        friend.save()
+        await loggedInUser.save()
+        await friend.save()
 
         io.emit(`gotFriendRequest/${friendId}`)
-        io.emit(`friendRequestSent/${loggedInUser._id}`)
+        io.emit(`friendRequestSent/${userId}`)
     }
 }

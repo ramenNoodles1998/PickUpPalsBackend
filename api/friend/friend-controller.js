@@ -104,3 +104,17 @@ exports.addPendingFriend = async (req, res) => {
 
     return res.status(200).json(pendingFriends)
 }
+
+exports.deleteFriend = async (req, res) => {
+    let loggedInUser = await getLoggedInUser(req)
+    let friendId = req.params.friendId
+    let friend = await User.findOne({ _id: friendId }).exec()
+
+    loggedInUser.friends.splice(loggedInUser.friends.indexOf(friendId), 1)
+    friend.friends.splice(friend.friends.indexOf(loggedInUser._id), 1)
+
+    loggedInUser.save()
+    friend.save()
+
+    return res.status(200).json(friend)
+}

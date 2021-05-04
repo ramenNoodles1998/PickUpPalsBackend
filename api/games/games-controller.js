@@ -20,6 +20,7 @@ exports.leaveGame = async (req, res) => {
 
     game = await Post.findOne({ _id: gameId}).exec()
 
+
     game.spotsAvailable++
 
     game.save()
