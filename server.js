@@ -9,20 +9,21 @@ const { sendFriendRequestDeclined } = require('./sockets/Friend/sendFriendReques
 const { sendUpdateFeed } = require('./sockets/Post/sendUpdateFeed.js')
 
 const express = require('express')
-const { Socket } = require('dgram')
 const app = express()
 
 const server = require('http').createServer(app)
 const io = require('socket.io')(server, {
   cors: {
-    origin: ['http://localhost:8081', 'http://pickuppals.uvucs.org'],
-    methods: ['GET', 'POST']
+    origin: '*',
+    methods: '*'
   }
 })
 
 setEnvironment(app)
 connectToDB()
 registerRoutes(app)
+
+const port = process.env.PORT || 8081
 
 app.get('/healthCheck', (req, res) => {
   res.send('healthy server')
@@ -40,8 +41,8 @@ io.on('connection', (client) => {
   })
 })
 
-server.listen(8080, () => {
-  console.log(`Example app listenings at 8080`)
+server.listen(port, () => {
+  console.log(`Example app listenings at ${port}`)
 })
 
 module.exports = app
